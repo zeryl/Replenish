@@ -25,6 +25,7 @@ public class ReplenishBlockListener extends BlockListener {
         Player player = event.getPlayer();
         ItemStack inHand = player.getItemInHand();
         int amt = 0;
+        short damage = 0;
 
         if (inHand.getAmount() == 1) {
             PlayerInventory inventory = player.getInventory();            
@@ -39,13 +40,14 @@ public class ReplenishBlockListener extends BlockListener {
                 }
                 else {
                     ItemStack item = entry.getValue();
+                    damage = item.getDurability();
                     amt = item.getAmount();
                     inventory.clear(index);
                     break;
                 }
             }
             
-            ItemStack item = new ItemStack(inHand.getType(), amt);
+            ItemStack item = new ItemStack(inHand.getType(), amt, damage);
             player.setItemInHand(item);
             player.updateInventory();
         }
